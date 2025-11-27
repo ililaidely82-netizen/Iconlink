@@ -35,7 +35,7 @@
   --xlgap:40px;
   
   /*font-size*/
-  --FS:0.8rem;
+  --FS:0.7rem;
   --FM:1rem;
   --FL:1.3rem;
   --FXL:2.1rem;
@@ -66,22 +66,26 @@ body {
 .tabs {
   display: flex;
   gap: var(--lgap);
-  justify-content:space-around ;
   margin-bottom: var(--sgap);
-  max-width: 1000px; /* 추가: 탭도 컨테이너와 동일하게 최대 폭 설정 */
-  width: 100%;
+  max-width: 100%;
+  overflow-x: auto; /* 가로 스크롤 가능 */
+  white-space: nowrap; /* 버튼이 줄 바꿈되지 않게 */
+  -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+  padding-bottom: 5px; /* 스크롤 여백 */
+  scrollbar-width: thin; /* 파이어폭스 스크롤바 얇게 */
 }
+
 .tab-btn {
-  -webkit-tap-highlight-color: transparent;
+  flex: 0 0 auto; /* 줄 바꿈 없이 원래 크기 유지 */
+  display: inline-block;
   padding: var(--gap) var(--xlgap);
   border: none;
   border-radius: var(--radius);
   background: var(--btn-bg);
-  margin-bottom:var(--gap);
+  margin-bottom: var(--gap);
   cursor: pointer;
   font-weight: bold;
   transition: transform 0.3s;
-  flex-grow: 1; /* 추가: 탭 버튼이 공간을 균등하게 차지하도록 */
 }
 .tab-btn.active {
   background: var(--selected);
@@ -166,7 +170,7 @@ body {
   font-size:var(--FM); 
   font-family:'Jua';
 }
-.span{font-size:var(--FM); font-family:'Noto Sans', sans-serif;} /* 수정: 폰트 예시를 일반 폰트로 설정 */
+.span{font-size:var(--FS); font-family:'Noto Sans', sans-serif;} /* 수정: 폰트 예시를 일반 폰트로 설정 */
 footer{
   font-size:var(--FL);
   padding:var(--sgap);
@@ -179,7 +183,7 @@ footer{
   .card-icon, .font-sample { margin-bottom: 10px; }
 }
 @media (max-width: 500px){
-  .tabs { flex-direction: column; gap: 10px; }
+  .tabs {gap: 10px; }
   .tab-btn { width: 100%; padding: 15px; }
 }
 </style>
@@ -189,11 +193,20 @@ footer{
 <div class="tabs">
   <button class="tab-btn active" data-target="icons">아이콘 모음</button>
   <button class="tab-btn" data-target="fonts">웹글꼴 모음</button>
+  <button class="tab-btn" data-target="local-fonts">로컬 폰트</button>
+  <button class="tab-btn" data-target="free-images">무료 이미지</button>
+  <button class="tab-btn" data-target="color-tools">색상·팔레트</button>
+  <button class="tab-btn" data-target="css-js-tools">CSS·JS 툴킷</button>
+  <button class="tab-btn" data-target="learn-resources">학습·참고자료</button>
+  <button class="tab-btn" data-target="etc-tools">기타</button>
 </div>
 
 <input type="text" class="search-bar" id="searchInput" placeholder="검색...">
 
-<div class="container"> <div class="tab-content active" id="icons">
+<div class="container"> 
+
+<!-- 아이콘 탭  -->
+<div class="tab-content active" id="icons">
     <div class="card" data-name="font awesome">
       <div class="card-icon" data-copy='<i class="fa fa-bars"></i>'>
         <i class="fa fa-bars"></i>
@@ -297,8 +310,9 @@ footer{
       </div>
     </div>
   </div>
-
-  <div class="tab-content" id="fonts">
+  
+<!-- 웹 폰트 탭  -->
+<div class="tab-content" id="fonts">
     <div class="card" data-name="google fonts">
       <div class="font-sample" data-copy="https://fonts.google.com/">
         <span class="span">예시글꼴</span>
@@ -404,6 +418,159 @@ footer{
       <h3>Lost Type</h3>
       <p>무료/기부형 폰트, 독특하고 창의적인 디자인</p>
       <a href="https://www.losttype.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+</div>
+
+<!-- 로컬 폰트 탭 -->
+<div class="tab-content" id="local-fonts">
+  <div class="card" data-name="dafont">
+    <div class="font-sample" data-copy="https://www.dafont.com/"><span class="span">예시글꼴</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>DaFont</h3>
+      <p>무료/유료 폰트 다양, 취향별 폰트 탐색 가능</p>
+      <a href="https://www.dafont.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+
+  <div class="card" data-name="font squirrel">
+    <div class="font-sample" data-copy="https://www.fontsquirrel.com/"><span class="span">예시글꼴</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Font Squirrel</h3>
+      <p>상업적 사용 가능한 무료 폰트 제공</p>
+      <a href="https://www.fontsquirrel.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+
+  <div class="card" data-name="google noto fonts">
+    <div class="font-sample" data-copy="https://www.google.com/get/noto/"><span class="span">예시글꼴</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Google Noto Fonts</h3>
+      <p>전 세계 언어 지원, 무료, 다국어 사이트에 유용</p>
+      <a href="https://www.google.com/get/noto/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+</div>
+
+<!-- 무료 이미지 탭 -->
+<div class="tab-content" id="free-images">
+  <div class="card" data-name="unsplash">
+    <div class="font-sample" data-copy="https://unsplash.com/"><span class="span">이미지 사이트</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Unsplash</h3>
+      <p>상업적 사용 가능한 고화질 이미지 무료 제공</p>
+      <a href="https://unsplash.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+
+  <div class="card" data-name="pexels">
+    <div class="font-sample" data-copy="https://www.pexels.com/"><span class="span">이미지 사이트</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Pexels</h3>
+      <p>무료 이미지·영상 제공</p>
+      <a href="https://www.pexels.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+
+  <div class="card" data-name="pixabay">
+    <div class="font-sample" data-copy="https://pixabay.com/"><span class="span">이미지 사이트</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Pixabay</h3>
+      <p>무료 이미지, 벡터, 영상 제공</p>
+      <a href="https://pixabay.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+</div>
+
+<!-- 색상·팔레트 탭 -->
+<div class="tab-content" id="color-tools">
+  <div class="card" data-name="coolors">
+    <div class="font-sample" data-copy="https://coolors.co/"><span class="span">팔레트 사이트</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Coolors</h3>
+      <p>빠른 색상 팔레트 생성, 추출 가능</p>
+      <a href="https://coolors.co/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+
+  <div class="card" data-name="colorhunt">
+    <div class="font-sample" data-copy="https://colorhunt.co/"><span class="span">팔레트 사이트</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Color Hunt</h3>
+      <p>트렌디한 색상 팔레트 공유</p>
+      <a href="https://colorhunt.co/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+</div>
+
+<!-- CSS·JS 툴킷 탭 -->
+<div class="tab-content" id="css-js-tools">
+  <div class="card" data-name="tailwind">
+    <div class="font-sample" data-copy="https://tailwindcss.com/"><span class="span">CSS 프레임워크</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Tailwind CSS</h3>
+      <p>유틸리티 기반 CSS 프레임워크</p>
+      <a href="https://tailwindcss.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+
+  <div class="card" data-name="bootstrap">
+    <div class="font-sample" data-copy="https://getbootstrap.com/"><span class="span">CSS 프레임워크</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Bootstrap</h3>
+      <p>반응형 CSS/JS 프레임워크</p>
+      <a href="https://getbootstrap.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+
+  <div class="card" data-name="swiperjs">
+    <div class="font-sample" data-copy="https://swiperjs.com/"><span class="span">JS 라이브러리</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Swiper.js</h3>
+      <p>모바일 터치 슬라이더/캐러셀 라이브러리</p>
+      <a href="https://swiperjs.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+</div>
+
+<!-- 학습·참고자료 탭 -->
+<div class="tab-content" id="learn-resources">
+  <div class="card" data-name="mdn">
+    <div class="font-sample" data-copy="https://developer.mozilla.org/"><span class="span">웹 개발 참고</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>MDN Web Docs</h3>
+      <p>HTML, CSS, JS 참고 자료</p>
+      <a href="https://developer.mozilla.org/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+
+  <div class="card" data-name="w3schools">
+    <div class="font-sample" data-copy="https://www.w3schools.com/"><span class="span">웹 개발 참고</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>W3Schools</h3>
+      <p>기초부터 실습 예제까지 웹 학습 자료</p>
+      <a href="https://www.w3schools.com/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+</div>
+
+<!-- 기타 탭 -->
+<div class="tab-content" id="etc-tools">
+  <div class="card" data-name="favicon">
+    <div class="font-sample" data-copy="https://realfavicongenerator.net/"><span class="span">아이콘 생성</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>RealFaviconGenerator</h3>
+      <p>파비콘 및 앱 아이콘 생성</p>
+      <a href="https://realfavicongenerator.net/" target="_blank">공식 사이트</a>
+    </div>
+  </div>
+
+  <div class="card" data-name="placeholder">
+    <div class="font-sample" data-copy="https://placeholder.com/"><span class="span">임시 이미지</span><span class="tooltip">Copied!</span></div>
+    <div class="card-info">
+      <h3>Placeholder.com</h3>
+      <p>웹용 임시 이미지 생성</p>
+      <a href="https://placeholder.com/" target="_blank">공식 사이트</a>
     </div>
   </div>
 </div>
