@@ -28,7 +28,11 @@
   
   /*line*/
   --radius:12px;
+  --xsgap:8px;
+  --sgap:12px;
   --gap:20px;
+  --lgap:30px;
+  --xlgap:40px;
   
   /*font-size*/
   --FS:0.8rem;
@@ -41,10 +45,11 @@
 body {
   font-family: 'Jua', sans-serif;
   background: var(--bg);
-  padding: 30px;
+  padding: var(--lgap);
   display: flex;
   flex-direction: column;
   -webkit-tap-highlight-color: transparent;
+  align-items: center; /* 추가: 전체 컨텐츠 중앙 정렬 */
 }
 
 /*change card color*/
@@ -58,17 +63,17 @@ body {
 .card-info a:hover {
   color: var(--selected-text); /* 마우스 올렸을 때 색 */
 }
-
-}
 .tabs {
   display: flex;
-  gap: var(--gap);
+  gap: var(--lgap);
   justify-content:space-around ;
-  margin-bottom: var(--gap);
+  margin-bottom: var(--sgap);
+  max-width: 1000px; /* 추가: 탭도 컨테이너와 동일하게 최대 폭 설정 */
+  width: 100%;
 }
 .tab-btn {
   -webkit-tap-highlight-color: transparent;
-  padding: 20px 40px;
+  padding: var(--gap) var(--xlgap);
   border: none;
   border-radius: var(--radius);
   background: var(--btn-bg);
@@ -76,6 +81,7 @@ body {
   cursor: pointer;
   font-weight: bold;
   transition: transform 0.3s;
+  flex-grow: 1; /* 추가: 탭 버튼이 공간을 균등하게 차지하도록 */
 }
 .tab-btn.active {
   background: var(--selected);
@@ -101,7 +107,7 @@ body {
 .card {
   background: var(--card-bg);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: var(--gap);
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: row;
@@ -150,8 +156,24 @@ body {
 .tooltip.show { opacity: 1; }
 .tab-content { display: none; }
 .tab-content.active { display: flex; flex-direction: column; gap: var(--gap); }
-.search-bar { margin-bottom: 20px; padding: 10px; width:100%; border-radius:var(--radius); border:1px solid var(--solid); font-size:var(--FM); font-family:'Jua';}
-.span{font-size:var(--FM);}
+.search-bar { 
+  margin-bottom: var(--gap); 
+  padding: var(--sgap); 
+  width:100%; 
+  max-width: 1000px; /* 추가: 검색창도 최대 폭 설정 */
+  border-radius:var(--radius); 
+  border:1px solid var(--solid); 
+  font-size:var(--FM); 
+  font-family:'Jua';
+}
+.span{font-size:var(--FM); font-family:'Noto Sans', sans-serif;} /* 수정: 폰트 예시를 일반 폰트로 설정 */
+footer{
+  font-size:var(--FL);
+  padding:var(--sgap);
+  margin-top:var(--gap);
+  background: var(--solid);
+  border-radius:var(--radius);
+}
 @media (max-width: 700px) {
   .card { flex-direction: column; align-items: flex-start; }
   .card-icon, .font-sample { margin-bottom: 10px; }
@@ -171,242 +193,222 @@ body {
 
 <input type="text" class="search-bar" id="searchInput" placeholder="검색...">
 
-<!-- 아이콘 탭 -->
-<div class="tab-content active" id="icons">
-  <!-- Font Awesome 예시 -->
-  <div class="card" data-name="font awesome">
-    <div class="card-icon" data-copy='<i class="fa fa-bars"></i>'>
-      <i class="fa fa-bars"></i>
-      <span class="tooltip">Copied!</span>
+<div class="container"> <div class="tab-content active" id="icons">
+    <div class="card" data-name="font awesome">
+      <div class="card-icon" data-copy='<i class="fa fa-bars"></i>'>
+        <i class="fa fa-bars"></i>
+        <span class="tooltip">Copied!</span>
+      </div>
+      <div class="card-info">
+        <h3>Font Awesome</h3>
+        <p>버튼, 메뉴, 소셜 아이콘 등 거의 다 있음.</p>
+        <a href="https://fontawesome.com/" target="_blank">공식 사이트</a>
+      </div>
     </div>
-    <div class="card-info">
-      <h3>Font Awesome</h3>
-      <p>버튼, 메뉴, 소셜 아이콘 등 거의 다 있음.</p>
-      <a href="https://fontawesome.com/" target="_blank">공식 사이트</a>
+    <div class="card" data-name="material icons">
+      <div class="card-icon" data-copy='<span class="material-icons">menu</span>'>
+        <span class="material-icons">menu</span>
+        <span class="tooltip">Copied!</span>
+      </div>
+      <div class="card-info">
+        <h3>Material Icons</h3>
+        <p>구글 디자인 아이콘. 웹/모바일 어디든 많이 씀.</p>
+        <a href="https://fonts.google.com/icons" target="_blank">공식 사이트</a>
+      </div>
     </div>
-  </div>
-  <!-- 나머지 아이콘 카드들도 동일하게 추가 -->
-    <!-- Material Icons -->
-  <div class="card" data-name="material icons">
-    <div class="card-icon" data-copy='<span class="material-icons">menu</span>'>
-      <span class="material-icons">menu</span>
-      <span class="tooltip">Copied!</span>
+
+    <div class="card" data-name="heroicons">
+      <div class="card-icon" data-copy='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>'>
+        <svg class="svg-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <span class="tooltip">Copied!</span>
+      </div>
+      <div class="card-info">
+        <h3>Heroicons</h3>
+        <p>SVG 아이콘 무료. Tailwind와 같이 많이 씀.</p>
+        <a href="https://heroicons.com/" target="_blank">공식 사이트</a>
+      </div>
     </div>
-    <div class="card-info">
-      <h3>Material Icons</h3>
-      <p>구글 디자인 아이콘. 웹/모바일 어디든 많이 씀.</p>
-      <a href="https://fonts.google.com/icons" target="_blank">공식 사이트</a>
+
+    <div class="card" data-name="feather icons">
+      <div class="card-icon" data-copy='<i data-feather="menu"></i>'>
+        <i data-feather="menu"></i>
+        <span class="tooltip">Copied!</span>
+      </div>
+      <div class="card-info">
+        <h3>Feather Icons</h3>
+        <p>심플한 라인 아이콘. SVG로 제공.</p>
+        <a href="https://feathericons.com/" target="_blank">공식 사이트</a>
+      </div>
+    </div>
+
+    <div class="card" data-name="boxicons">
+      <div class="card-icon" data-copy='<i class="bx bx-menu"></i>'><i class='bx bx-menu'></i><span class="tooltip">Copied!</span></div>
+      <div class="card-info">
+        <h3>Boxicons</h3>
+        <p>SVG + CSS 아이콘, 깔끔함.</p>
+        <a href="https://boxicons.com/" target="_blank">공식 사이트</a>
+      </div>
+    </div>
+
+    <div class="card" data-name="remix icon">
+      <div class="card-icon" data-copy='<i class="ri-menu-line"></i>'><i class="ri-menu-line"></i><span class="tooltip">Copied!</span></div>
+      <div class="card-info">
+        <h3>Remix Icon</h3>
+        <p>오픈소스 SVG 아이콘.</p>
+        <a href="https://remixicon.com/" target="_blank">공식 사이트</a>
+      </div>
+    </div>
+
+    <div class="card" data-name="ionicons">
+      <div class="card-icon" data-copy='<ion-icon name="menu"></ion-icon>'><ion-icon name="menu"></ion-icon><span class="tooltip">Copied!</span></div>
+      <div class="card-info">
+        <h3>Ionicons</h3>
+        <p>모바일 앱/웹용 무료 아이콘.</p>
+        <a href="https://ionicons.com/" target="_blank">공식 사이트</a>
+      </div>
+    </div>
+
+    <div class="card" data-name="bootstrap icons">
+      <div class="card-icon" data-copy='<svg class="bi"><use xlink:href="#menu"/></svg>'><svg class="svg-icon"><use xlink:href="#menu"/></svg><span class="tooltip">Copied!</span></div>
+      <div class="card-info">
+        <h3>Bootstrap Icons</h3>
+        <p>SVG 기반, 부트스트랩과 함께 사용.</p>
+        <a href="https://icons.getbootstrap.com/" target="_blank">공식 사이트</a>
+      </div>
+    </div>
+
+    <div class="card" data-name="typicons">
+      <div class="card-icon" data-copy='<span class="typcn typcn-menu"></span>'><span class="typcn typcn-menu"></span><span class="tooltip">Copied!</span></div>
+      <div class="card-info">
+        <h3>Typicons</h3>
+        <p>간결한 라인 아이콘.</p>
+        <a href="https://www.s-ings.com/typicons/" target="_blank">공식 사이트</a>
+      </div>
+    </div>
+
+    <div class="card" data-name="octicons">
+      <div class="card-icon" data-copy='<span class="octicon octicon-three-bars"></span>'><span class="octicon octicon-three-bars"></span><span class="tooltip">Copied!</span></div>
+      <div class="card-info">
+        <h3>Octicons</h3>
+        <p>GitHub에서 만든 SVG 아이콘.</p>
+        <a href="https://primer.style/octicons/" target="_blank">공식 사이트</a>
+      </div>
     </div>
   </div>
 
-  <!-- Heroicons -->
-  <div class="card" data-name="heroicons">
-    <div class="card-icon" data-copy='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>'>
-      <svg class="svg-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-      <span class="tooltip">Copied!</span>
+  <div class="tab-content" id="fonts">
+    <div class="card" data-name="google fonts">
+      <div class="font-sample" data-copy="https://fonts.google.com/">
+        <span class="span">예시글꼴</span>
+        <span class="tooltip">Copied!</span>
+      </div>
+      <div class="card-info">
+        <h3>Google Fonts</h3>
+        <p>무료, 웹폰트 CDN 제공, 다양한 언어 지원</p>
+        <a href="https://fonts.google.com/" target="_blank">공식 사이트</a>
+      </div>
     </div>
-    <div class="card-info">
-      <h3>Heroicons</h3>
-      <p>SVG 아이콘 무료. Tailwind와 같이 많이 씀.</p>
-      <a href="https://heroicons.com/" target="_blank">공식 사이트</a>
-    </div>
-  </div>
 
-  <!-- Feather Icons -->
-  <div class="card" data-name="feather icons">
-    <div class="card-icon" data-copy='<i data-feather="menu"></i>'>
-      <i data-feather="menu"></i>
-      <span class="tooltip">Copied!</span>
+    <div class="card" data-name="adobe fonts">
+      <div class="font-sample" data-copy="https://fonts.adobe.com/">
+        <span class="span">예시글꼴</span>
+        <span class="tooltip">Copied!</span>
+      </div>
+      <div class="card-info">
+        <h3>Adobe Fonts (Typekit)</h3>
+        <p>어도비 계정 필요, 프리미엄 글꼴 포함, Creative Cloud 연동</p>
+        <a href="https://fonts.adobe.com/" target="_blank">공식 사이트</a>
+      </div>
     </div>
-    <div class="card-info">
-      <h3>Feather Icons</h3>
-      <p>심플한 라인 아이콘. SVG로 제공.</p>
-      <a href="https://feathericons.com/" target="_blank">공식 사이트</a>
-    </div>
-  </div>
 
-  <!-- Boxicons -->
-  <div class="card" data-name="boxicons">
-    <div class="card-icon" data-copy='<i class="bx bx-menu"></i>'><i class='bx bx-menu'></i><span class="tooltip">Copied!</span></div>
-    <div class="card-info">
-      <h3>Boxicons</h3>
-      <p>SVG + CSS 아이콘, 깔끔함.</p>
-      <a href="https://boxicons.com/" target="_blank">공식 사이트</a>
+    <div class="card" data-name="font squirrel">
+      <div class="font-sample" data-copy="https://www.fontsquirrel.com/">
+        <span class="span">예시글꼴</span>
+        <span class="tooltip">Copied!</span>
+      </div>
+      <div class="card-info">
+        <h3>Font Squirrel</h3>
+        <p>상업적 사용 가능한 무료 폰트 제공, 웹폰트 생성기 제공</p>
+        <a href="https://www.fontsquirrel.com/" target="_blank">공식 사이트</a>
+      </div>
     </div>
-  </div>
 
-  <!-- Remix Icon -->
-  <div class="card" data-name="remix icon">
-    <div class="card-icon" data-copy='<i class="ri-menu-line"></i>'><i class="ri-menu-line"></i><span class="tooltip">Copied!</span></div>
-    <div class="card-info">
-      <h3>Remix Icon</h3>
-      <p>오픈소스 SVG 아이콘.</p>
-      <a href="https://remixicon.com/" target="_blank">공식 사이트</a>
+    <div class="card" data-name="dafont">
+      <div class="font-sample" data-copy="https://www.dafont.com/">
+        <span class="span">예시글꼴</span>
+        <span class="tooltip">Copied!</span>
+      </div>
+      <div class="card-info">
+        <h3>DaFont</h3>
+        <p>무료/유료 폰트 다양, 취향별 폰트 탐색 가능</p>
+        <a href="https://www.dafont.com/" target="_blank">공식 사이트</a>
+      </div>
     </div>
-  </div>
 
-  <!-- Ionicons -->
-  <div class="card" data-name="ionicons">
-    <div class="card-icon" data-copy='<ion-icon name="menu"></ion-icon>'><ion-icon name="menu"></ion-icon><span class="tooltip">Copied!</span></div>
-    <div class="card-info">
-      <h3>Ionicons</h3>
-      <p>모바일 앱/웹용 무료 아이콘.</p>
-      <a href="https://ionicons.com/" target="_blank">공식 사이트</a>
+    <div class="card" data-name="google noto fonts">
+      <div class="font-sample" data-copy="https://www.google.com/get/noto/">
+        <span class="span">예시글꼴</span>
+        <span class="tooltip">Copied!</span>
+      </div>
+      <div class="card-info">
+        <h3>Google Noto Fonts</h3>
+        <p>전 세계 언어 지원, 무료, 다국어 사이트에 유용</p>
+        <a href="https://www.google.com/get/noto/" target="_blank">공식 사이트</a>
+      </div>
     </div>
-  </div>
 
-  <!-- Bootstrap Icons -->
-  <div class="card" data-name="bootstrap icons">
-    <div class="card-icon" data-copy='<svg class="bi"><use xlink:href="#menu"/></svg>'><svg class="svg-icon"><use xlink:href="#menu"/></svg><span class="tooltip">Copied!</span></div>
-    <div class="card-info">
-      <h3>Bootstrap Icons</h3>
-      <p>SVG 기반, 부트스트랩과 함께 사용.</p>
-      <a href="https://icons.getbootstrap.com/" target="_blank">공식 사이트</a>
-    </div>
-  </div>
-
-  <!-- Typicons -->
-  <div class="card" data-name="typicons">
-    <div class="card-icon" data-copy='<span class="typcn typcn-menu"></span>'><span class="typcn typcn-menu"></span><span class="tooltip">Copied!</span></div>
-    <div class="card-info">
-      <h3>Typicons</h3>
-      <p>간결한 라인 아이콘.</p>
-      <a href="https://www.s-ings.com/typicons/" target="_blank">공식 사이트</a>
-    </div>
-  </div>
-
-  <!-- Octicons -->
-  <div class="card" data-name="octicons">
-    <div class="card-icon" data-copy='<span class="octicon octicon-three-bars"></span>'><span class="octicon octicon-three-bars"></span><span class="tooltip">Copied!</span></div>
-    <div class="card-info">
-      <h3>Octicons</h3>
-      <p>GitHub에서 만든 SVG 아이콘.</p>
-      <a href="https://primer.style/octicons/" target="_blank">공식 사이트</a>
-    </div>
-  </div>
-</div>
-
-<!-- 글꼴 사이트 탭 -->
-<div class="tab-content" id="fonts">
-  <!-- Google Fonts -->
-  <div class="card" data-name="google fonts">
-    <div class="font-sample" data-copy="https://fonts.google.com/">
+  <div class="card" data-name="fontspring">
+    <div class="font-sample" data-copy="https://www.fontspring.com/">
       <span class="span">예시글꼴</span>
       <span class="tooltip">Copied!</span>
     </div>
     <div class="card-info">
-      <h3>Google Fonts</h3>
-      <p>무료, 웹폰트 CDN 제공, 다양한 언어 지원</p>
-      <a href="https://fonts.google.com/" target="_blank">공식 사이트</a>
+      <h3>Fontspring</h3>
+      <p>상업용 폰트 라이선스 제공, 다양한 웹폰트 포함</p>
+      <a href="https://www.fontspring.com/" target="_blank">공식 사이트</a>
     </div>
   </div>
 
-  <!-- Adobe Fonts -->
-  <div class="card" data-name="adobe fonts">
-    <div class="font-sample" data-copy="https://fonts.adobe.com/">
+  <div class="card" data-name="myfonts">
+    <div class="font-sample" data-copy="https://www.myfonts.com/">
       <span class="span">예시글꼴</span>
       <span class="tooltip">Copied!</span>
     </div>
     <div class="card-info">
-      <h3>Adobe Fonts (Typekit)</h3>
-      <p>어도비 계정 필요, 프리미엄 글꼴 포함, Creative Cloud 연동</p>
-      <a href="https://fonts.adobe.com/" target="_blank">공식 사이트</a>
+      <h3>MyFonts</h3>
+      <p>상업용/유료 폰트 다양, 구매 후 웹폰트 사용 가능</p>
+      <a href="https://www.myfonts.com/" target="_blank">공식 사이트</a>
     </div>
   </div>
 
-  <!-- Font Squirrel -->
-  <div class="card" data-name="font squirrel">
-    <div class="font-sample" data-copy="https://www.fontsquirrel.com/">
+  <div class="card" data-name="font fabric">
+    <div class="font-sample" data-copy="https://www.fontfabric.com/">
       <span class="span">예시글꼴</span>
       <span class="tooltip">Copied!</span>
     </div>
     <div class="card-info">
-      <h3>Font Squirrel</h3>
-      <p>상업적 사용 가능한 무료 폰트 제공, 웹폰트 생성기 제공</p>
-      <a href="https://www.fontsquirrel.com/" target="_blank">공식 사이트</a>
+      <h3>Font Fabric</h3>
+      <p>디자이너 제작 무료/유료 폰트 제공, 모던 스타일</p>
+      <a href="https://www.fontfabric.com/" target="_blank">공식 사이트</a>
     </div>
   </div>
 
-  <!-- DaFont -->
-  <div class="card" data-name="dafont">
-    <div class="font-sample" data-copy="https://www.dafont.com/">
+  <div class="card" data-name="lost type">
+    <div class="font-sample" data-copy="https://www.losttype.com/">
       <span class="span">예시글꼴</span>
       <span class="tooltip">Copied!</span>
     </div>
     <div class="card-info">
-      <h3>DaFont</h3>
-      <p>무료/유료 폰트 다양, 취향별 폰트 탐색 가능</p>
-      <a href="https://www.dafont.com/" target="_blank">공식 사이트</a>
+      <h3>Lost Type</h3>
+      <p>무료/기부형 폰트, 독특하고 창의적인 디자인</p>
+      <a href="https://www.losttype.com/" target="_blank">공식 사이트</a>
     </div>
   </div>
-
-  <!-- Google Noto Fonts -->
-  <div class="card" data-name="google noto fonts">
-    <div class="font-sample" data-copy="https://www.google.com/get/noto/">
-      <span class="span">예시글꼴</span>
-      <span class="tooltip">Copied!</span>
-    </div>
-    <div class="card-info">
-      <h3>Google Noto Fonts</h3>
-      <p>전 세계 언어 지원, 무료, 다국어 사이트에 유용</p>
-      <a href="https://www.google.com/get/noto/" target="_blank">공식 사이트</a>
-    </div>
-  </div>
-
-<!-- Fontspring -->
-<div class="card" data-name="fontspring">
-  <div class="font-sample" data-copy="https://www.fontspring.com/">
-    <span class="span">예시글꼴</span>
-    <span class="tooltip">Copied!</span>
-  </div>
-  <div class="card-info">
-    <h3>Fontspring</h3>
-    <p>상업용 폰트 라이선스 제공, 다양한 웹폰트 포함</p>
-    <a href="https://www.fontspring.com/" target="_blank">공식 사이트</a>
-  </div>
-</div>
-
-<!-- MyFonts -->
-<div class="card" data-name="myfonts">
-  <div class="font-sample" data-copy="https://www.myfonts.com/">
-    <span class="span">예시글꼴</span>
-    <span class="tooltip">Copied!</span>
-  </div>
-  <div class="card-info">
-    <h3>MyFonts</h3>
-    <p>상업용/유료 폰트 다양, 구매 후 웹폰트 사용 가능</p>
-    <a href="https://www.myfonts.com/" target="_blank">공식 사이트</a>
-  </div>
-</div>
-
-<!-- Font Fabric -->
-<div class="card" data-name="font fabric">
-  <div class="font-sample" data-copy="https://www.fontfabric.com/">
-    <span class="span">예시글꼴</span>
-    <span class="tooltip">Copied!</span>
-  </div>
-  <div class="card-info">
-    <h3>Font Fabric</h3>
-    <p>디자이너 제작 무료/유료 폰트 제공, 모던 스타일</p>
-    <a href="https://www.fontfabric.com/" target="_blank">공식 사이트</a>
-  </div>
-</div>
-
-<!-- Lost Type -->
-<div class="card" data-name="lost type">
-  <div class="font-sample" data-copy="https://www.losttype.com/">
-    <span class="span">예시글꼴</span>
-    <span class="tooltip">Copied!</span>
-  </div>
-  <div class="card-info">
-    <h3>Lost Type</h3>
-    <p>무료/기부형 폰트, 독특하고 창의적인 디자인</p>
-    <a href="https://www.losttype.com/" target="_blank">공식 사이트</a>
-  </div>
 </div>
 </div>
+<footer>Simple Link Library</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -424,13 +426,19 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
     document.getElementById(target).classList.add('active');
     document.getElementById('searchInput').value = '';
+    
+    // 탭 전환 시 검색 결과 초기화 (모든 카드를 다시 'flex'로 표시)
+    document.querySelectorAll('.tab-content .card').forEach(card => {
+        card.style.display = 'flex';
+    });
   });
 });
 
 // 검색 기능
 document.getElementById('searchInput').addEventListener('input', e => {
   const val = e.target.value.toLowerCase();
-  document.querySelectorAll('.tab-content.active .card').forEach(card => {
+  // .tab-content.active 대신, .container 내의 .tab-content.active로 정확히 지정
+  document.querySelectorAll('.container .tab-content.active .card').forEach(card => {
     card.style.display = card.dataset.name.includes(val) ? 'flex' : 'none';
   });
 });
