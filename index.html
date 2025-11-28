@@ -49,7 +49,6 @@ body {
   display: flex;
   flex-direction: column;
   -webkit-tap-highlight-color: transparent;
-  align-items: center; /* 추가: 전체 컨텐츠 중앙 정렬 */
 }
 
 /*change card color*/
@@ -85,6 +84,7 @@ body {
   margin-bottom: var(--gap);
   cursor: pointer;
   font-weight: bold;
+  font-family:'Jua';
   transition: transform 0.3s;
 }
 .tab-btn.active {
@@ -147,8 +147,8 @@ body {
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--dark);
-  color: var(--text);
+  background: var(--card-bg);
+  color: var(--btn-bg);
   font-size: var(--FS);
   padding: 3px 8px;
   border-radius: 6px;
@@ -161,6 +161,7 @@ body {
 .tab-content { display: none; }
 .tab-content.active { display: flex; flex-direction: column; gap: var(--gap); }
 .search-bar { 
+  background:var(--card-bg);
   margin-bottom: var(--gap); 
   padding: var(--sgap); 
   width:100%; 
@@ -178,13 +179,15 @@ footer{
   background: var(--solid);
   border-radius:var(--radius);
 }
+footer:hover{}
+
 @media (max-width: 700px) {
   .card { flex-direction: column; align-items: flex-start; }
   .card-icon, .font-sample { margin-bottom: 10px; }
 }
 @media (max-width: 500px){
   .tabs {gap: 10px; }
-  .tab-btn { width: 100%; padding: 15px; }
+  .tab-btn { width: 35%; padding: 15px; }
 }
 </style>
 </head>
@@ -584,40 +587,61 @@ footer{
 <script>
 feather.replace();
 
-// 탭 전환
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const target = btn.dataset.target;
-    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-    document.getElementById(target).classList.add('active');
-    document.getElementById('searchInput').value = '';
-    
-    // 탭 전환 시 검색 결과 초기화 (모든 카드를 다시 'flex'로 표시)
-    document.querySelectorAll('.tab-content .card').forEach(card => {
-        card.style.display = 'flex';
-    });
+/* -----------------------------------------
+   🔵 탭 전환 (동적 요소 포함)
+----------------------------------------- */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const target = btn.dataset.target;
+
+  document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+  document.getElementById(target).classList.add('active');
+
+  // 검색창 초기화
+  const input = document.getElementById('searchInput');
+  if (input) input.value = '';
+
+  // 카드 다시 표시
+  document.querySelectorAll('.tab-content.active .card').forEach(card => {
+    card.style.display = 'flex';
   });
 });
 
-// 검색 기능
-document.getElementById('searchInput').addEventListener('input', e => {
+/* -----------------------------------------
+   🟡 검색 기능 (동적 요소 포함)
+----------------------------------------- */
+document.getElementById('searchInput').addEventListener('input', (e) => {
   const val = e.target.value.toLowerCase();
-  // .tab-content.active 대신, .container 내의 .tab-content.active로 정확히 지정
-  document.querySelectorAll('.container .tab-content.active .card').forEach(card => {
-    card.style.display = card.dataset.name.includes(val) ? 'flex' : 'none';
-  });
+
+  document
+    .querySelectorAll('.tab-content.active .card')
+    .forEach(card => {
+      card.style.display = card.dataset.name.includes(val) ? 'flex' : 'none';
+    });
 });
 
-// 복사 기능 + 툴팁
-document.querySelectorAll('.card-icon, .font-sample').forEach(icon => {
+/* -----------------------------------------
+   🟢 복사 기능 + tooltip (동적 요소 대응)
+----------------------------------------- */
+document.addEventListener('click', (e) => {
+  const icon = e.target.closest('.card-icon, .font-sample');
+  if (!icon) return;
+
   const tooltip = icon.querySelector('.tooltip');
-  icon.addEventListener('click', () => {
-    navigator.clipboard.writeText(icon.dataset.copy).then(() => {
+  const text = icon.dataset.copy;
+
+  if (!text) return;
+
+  navigator.clipboard.writeText(text).then(() => {
+    if (tooltip) {
       tooltip.classList.add('show');
       setTimeout(() => tooltip.classList.remove('show'), 1000);
-    });
+    }
   });
 });
 </script>
